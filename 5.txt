@@ -1,0 +1,95 @@
+﻿C#企业级开发技术练习5答题卡
+
+班级：  19级计算机信息管理1班     
+姓名：  黄奕杭     
+学号：  20190307120     
+
+注：请将答案放置在序号下方。*/
+
+（一）
+using System;
+
+namespace ConsoleApp1
+{
+    public class UserSys
+    {
+        public delegate void DLogin(object o, int n);
+        DLogin _elogin;
+        public event DLogin ELogin
+        {
+            add
+            { _elogin += value; }
+            remove
+            { _elogin += value; }
+        }
+        int n = 0;
+        public void login()
+        {
+            _elogin(this, ++n);
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            UserSys user = new UserSys();
+            user.ELogin+=(o,n)=> Console.WriteLine($"1000{n}登录{o}成功");
+            user.login();
+            user.login();
+            user.login();
+        }
+    }
+}
+
+（二）
+using System;
+using System.Numerics;
+
+namespace ConsoleApp2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string str1 = "C#,java,python,golang,javascript,PHP,VB";
+            string[] str2 = str1.Split(',');
+            Array.Sort(str2, (a, b) => string.Compare(b.ToString(), a.ToString()));
+            foreach (var i in str1)
+                str1 += i.ToString();
+            string str3 = string.Join(",", str2);
+            Console.WriteLine(str3);
+        }
+    }
+}
+
+（三）
+using System;
+using System.Numerics;
+
+namespace ConsoleApp3
+{
+    public class MathSys
+    {
+        public delegate void DFilter(int[] num);
+        public event DFilter EFilter;
+        public void filter(int[] num)
+        {
+            EFilter(num);
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            MathSys math = new MathSys();
+            math.EFilter += num =>
+            {
+                int[] even = Array.FindAll(new[] { e % 2 == 0 });
+                Console.WriteLine("数组中的偶数如下:");
+                foreach (int i in even)
+                    Console.WriteLine(i);
+            };
+            math.filter(new[] { 10, 8, 7, 21, 24 });
+        }
+    }
+}
